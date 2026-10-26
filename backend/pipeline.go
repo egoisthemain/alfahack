@@ -40,6 +40,29 @@ func (app *App) fullApplication(ctx context.Context, id int64) (FullApplication,
         a.product,a.amount,a.term_months,a.purpose,a.declared_annual_revenue,a.bki_consent,a.equipment_cost,a.supplier_document_id,a.submitted_at,a.decision,a.scoring_error
         FROM applications a JOIN companies c USING(company_id) WHERE application_id=$1`, id).Scan(
 		&a.ID, &a.CompanyID, &a.Status, &a.CreatedAt, &a.INN, &a.CompanyName, &a.Product, &a.Amount, &a.TermMonths, &a.Purpose, &a.AnnualRevenue, &a.Consent, &a.EquipmentCost, &a.Document, &a.SubmittedAt, &a.Decision, &a.ScoringError)
+	if err == nil && a.Status == "MANUAL_REVIEW" {
+		// Supply review terms for existing decisions made before limits were
+		// calculated for grade E. Keep the original recommendation and audit.
+		var d CreditDecision
+		if json.Unmarshal(a.Decision, &d) == nil && d.Offer == nil && d.ReviewTerms == nil && d.PD != nil && d.Grade != "" {
+			var raw []byte
+			if err = app.DB.QueryRow(ctx, `SELECT source_snapshot FROM applications WHERE application_id=$1`, id).Scan(&raw); err != nil {
+				return a, err
+			}
+			var snapshot map[string]any
+			if err = json.Unmarshal(raw, &snapshot); err != nil {
+				return a, err
+			}
+			financial := block(snapshot, "financial_profile")
+			revenue := float64(a.AnnualRevenue)
+			if confirmed, ok := financial["verified_annual_revenue"].(float64); ok {
+				revenue = confirmed
+			}
+			terms := decisionFor(a.request(), *d.PD, d.Grade, num(block(snapshot, "bki_profile"), "existing_monthly_payment_rub"), revenue)
+			d.Limit, d.ReviewTerms = terms.Limit, terms.ReviewTerms
+			a.Decision, err = json.Marshal(d)
+		}
+	}
 	return a, err
 }
 func (a FullApplication) request() ApplicationRequest {

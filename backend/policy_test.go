@@ -16,6 +16,27 @@ func TestPDGradeBoundaries(t *testing.T) {
 		}
 	}
 }
+
+func TestGradeEEquipmentAllowsBoundedHumanOverride(t *testing.T) {
+	cost := int64(7_000_000)
+	req := ApplicationRequest{Product: "EQUIPMENT", Amount: 2_000_000, TermMonths: 24, AnnualRevenue: 24_000_000, EquipmentCost: &cost}
+	d := decisionFor(req, .35, "E", 100000, 24_000_000)
+	if d.Decision != "MANUAL_REVIEW" || d.Recommendation != "REJECTED" || d.Offer != nil || d.ReviewTerms == nil || d.Limit.Amount < req.Amount {
+		t.Fatalf("expected rejection recommendation with bounded manual terms: %#v", d)
+	}
+	if d.ReviewTerms.Amount > d.Limit.Amount || d.ReviewTerms.Rate > 30 {
+		t.Fatal("invalid review terms")
+	}
+	d = decisionFor(req, .35, "E", 2_000_000, 24_000_000)
+	if d.Limit.Amount != 0 || d.ReviewTerms != nil {
+		t.Fatal("human override must respect exhausted payment capacity")
+	}
+	req.Product = "EXPRESS"
+	d = decisionFor(req, .35, "E", 0, 24_000_000)
+	if d.Decision != "REJECTED" || d.Offer != nil {
+		t.Fatal("grade E must not be auto-approved")
+	}
+}
 func TestRatesAndManualLimit(t *testing.T) {
 	req := ApplicationRequest{Product: "EXPRESS", Amount: 2_000_000, TermMonths: 24, AnnualRevenue: 24_000_000}
 	for _, x := range []struct{ pd, rate float64 }{{.02, 17}, {.06, 19.5}, {.1, 22}, {.2, 28}} {

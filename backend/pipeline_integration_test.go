@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bytes"
 	"context"
 	"encoding/json"
 	"github.com/jackc/pgx/v5/pgxpool"
@@ -142,5 +143,46 @@ func TestIntegrationAuditRegistrationEvidence(t *testing.T) {
 	app.auditHandler(w, r)
 	if w.Code != 403 {
 		t.Fatalf("client audit status %d", w.Code)
+	}
+}
+
+func TestIntegrationLegacyGradeEManualCounteroffer(t *testing.T) {
+	app := integrationApp(t)
+	id := testApplication(t, app, "7700000001")
+	legacy := `{"decision":"MANUAL_REVIEW","recommendation":"REJECTED","grade":"E","pd":0.35,"scoring_mode":"model","limit":{"amount":0},"manual_review_triggers":["MR01"]}`
+	sources := `{"financial_profile":{"verified_annual_revenue":24000000},"bki_profile":{"existing_monthly_payment_rub":100000}}`
+	_, err := app.DB.Exec(context.Background(), `UPDATE applications SET status='MANUAL_REVIEW',product='EQUIPMENT',equipment_cost=7000000,decision=$2::jsonb,source_snapshot=$3::jsonb WHERE application_id=$1`, id, legacy, sources)
+	if err != nil {
+		t.Fatal(err)
+	}
+	a, err := app.fullApplication(context.Background(), id)
+	if err != nil {
+		t.Fatal(err)
+	}
+	var d CreditDecision
+	if err = json.Unmarshal(a.Decision, &d); err != nil || d.ReviewTerms == nil || d.Limit.Amount <= 0 {
+		t.Fatalf("legacy terms: %s %v", a.Decision, err)
+	}
+	token := "integration-grade-e-override"
+	sessions.Store(token, demoSession{Role: "analyst", Expires: time.Now().Add(time.Minute)})
+	defer sessions.Delete(token)
+	r := httptest.NewRequest("POST", "/decision", bytes.NewBufferString(`{"decision":"COUNTER_OFFER","amount":1500000,"comment":"Synthetic manual risk review"}`))
+	r.SetPathValue("id", strconv.FormatInt(id, 10))
+	r.AddCookie(&http.Cookie{Name: "alfahack_session", Value: token})
+	w := httptest.NewRecorder()
+	app.manualHandler(w, r)
+	if w.Code != 200 {
+		t.Fatalf("counteroffer %d: %s", w.Code, w.Body.String())
+	}
+	a, err = app.fullApplication(context.Background(), id)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if err = json.Unmarshal(a.Decision, &d); err != nil || a.Status != "COUNTER_OFFER" || d.Offer == nil || d.Offer.Amount != 1500000 {
+		t.Fatalf("bad saved offer %s %v", a.Decision, err)
+	}
+	var override bool
+	if err = app.DB.QueryRow(context.Background(), `SELECT override FROM application_events WHERE application_id=$1 AND actor='ANALYST' ORDER BY event_id DESC LIMIT 1`, id).Scan(&override); err != nil || !override {
+		t.Fatalf("missing override %v", err)
 	}
 }

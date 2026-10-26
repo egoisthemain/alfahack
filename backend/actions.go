@@ -239,6 +239,19 @@ func (app *App) manualHandler(w http.ResponseWriter, r *http.Request) {
 		app.endpointError(w, err)
 		return
 	}
+	if d.Offer == nil && d.ReviewTerms == nil && d.PD != nil && d.Grade != "" {
+		// The row is locked; fullApplication derives missing legacy review
+		// terms from this application's saved source snapshot.
+		a, e := app.fullApplication(r.Context(), id)
+		if e != nil {
+			app.endpointError(w, e)
+			return
+		}
+		if e = json.Unmarshal(a.Decision, &d); e != nil {
+			app.endpointError(w, e)
+			return
+		}
+	}
 	recommendation := d.Recommendation
 	originalAmount := int64(0)
 	if d.Offer != nil {

@@ -225,14 +225,6 @@ func pointsScore(c Company, req ApplicationRequest, bki, pb map[string]any, at t
 }
 func decisionFor(req ApplicationRequest, pd float64, grade string, existing, annualRevenue float64) CreditDecision {
 	d := CreditDecision{Decision: "REJECTED", Grade: grade, PD: &pd, Mode: "model", Reasons: []Reason{}, Triggers: []string{}, PolicyVersion: "2026-10-22.1"}
-	if grade == "E" {
-		if req.Product == "EQUIPMENT" {
-			d.Recommendation = "REJECTED"
-			d.Decision = "MANUAL_REVIEW"
-			d.Triggers = append(d.Triggers, "MR01")
-		}
-		return d
-	}
 	base, lgd, cap, revCap, minAmount := .16, .6, 5_000_000., .4, 300_000.
 	if req.Product == "EQUIPMENT" {
 		base, lgd, cap, revCap, minAmount = .14, .4, 15_000_000, 1, 500_000
@@ -275,6 +267,9 @@ func decisionFor(req ApplicationRequest, pd float64, grade string, existing, ann
 	if amount < minAmount {
 		result = "REJECTED"
 	}
+	if grade == "E" {
+		result = "REJECTED"
+	}
 	if result != "REJECTED" {
 		d.Offer = &Offer{int64(math.Floor(amount)), req.TermMonths, math.Round(rate*10000) / 100, math.Round(annuity(math.Floor(amount), rate, req.TermMonths)*100) / 100}
 	}
@@ -296,7 +291,7 @@ func decisionFor(req ApplicationRequest, pd float64, grade string, existing, ann
 	if len(d.Triggers) > 0 {
 		d.Decision = "MANUAL_REVIEW"
 		d.Recommendation = result
-		if grade == "D" && req.Product == "EQUIPMENT" && float64(limit) >= minAmount {
+		if d.Offer == nil && float64(limit) >= minAmount {
 			candidate := math.Min(float64(req.Amount), float64(limit))
 			d.ReviewTerms = &Offer{int64(candidate), req.TermMonths, math.Round(rate*10000) / 100, math.Round(annuity(candidate, rate, req.TermMonths)*100) / 100}
 		}
