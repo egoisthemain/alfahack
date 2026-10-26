@@ -682,7 +682,13 @@ func main() {
 	}
 	logger.Info("server started", "address", address)
 
-	err = http.ListenAndServe(address, app.authorize(mux))
+	server := &http.Server{
+		Addr: address, Handler: demoGate(app.authorize(mux)),
+		ReadHeaderTimeout: 10 * time.Second,
+		ReadTimeout:       60 * time.Second, WriteTimeout: 60 * time.Second,
+		IdleTimeout: 60 * time.Second,
+	}
+	err = server.ListenAndServe()
 	if err != nil {
 		slog.Error("server stopped", "error", err)
 		return

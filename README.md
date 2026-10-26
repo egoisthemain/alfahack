@@ -4,6 +4,8 @@
 
 Сверка с ответами организаторов и приоритеты перед сдачей: [docs/webinar-check.md](docs/webinar-check.md). Нативный и Docker-запуск проверены. Результаты проверки Docker от 26 октября: [docs/verification.md](docs/verification.md).
 
+Краткое ревью: [docs/review.md](docs/review.md). Дополнительное размещение на бесплатном хостинге: [docs/deploy-render.md](docs/deploy-render.md).
+
 ## Запуск всего решения
 
 Из корня репозитория:

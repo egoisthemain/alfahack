@@ -6,6 +6,7 @@ import (
 	"encoding/json"
 	"io"
 	"net/http"
+	"os"
 	"strconv"
 	"strings"
 	"sync"
@@ -65,7 +66,7 @@ func (app *App) loginHandler(w http.ResponseWriter, r *http.Request) {
 	}
 	key := hex.EncodeToString(token)
 	sessions.Store(key, s)
-	http.SetCookie(w, &http.Cookie{Name: "alfahack_session", Value: key, Path: "/", HttpOnly: true, SameSite: http.SameSiteStrictMode, MaxAge: 43200})
+	http.SetCookie(w, &http.Cookie{Name: "alfahack_session", Value: key, Path: "/", HttpOnly: true, Secure: os.Getenv("COOKIE_SECURE") == "true", SameSite: http.SameSiteStrictMode, MaxAge: 43200})
 	_ = writeJSON(w, 200, map[string]any{"role": s.Role, "company_id": s.CompanyID})
 }
 func (app *App) authorize(next http.Handler) http.Handler {
