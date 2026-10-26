@@ -4,3 +4,11 @@
 /tmp/
 *.exe
 *.log
+.runtime-python/
+.runtime-*/
+cookies.txt
+**/__pycache__/
+*.pyc
+.venv/
+*.dump
+*.backup

@@ -1,0 +1,93 @@
+{
+  "generator_version": "alpha-unified-1.0.0",
+  "feature_version": "alpha-v1.1-unified-features-1",
+  "seed": 20261025,
+  "n_companies": 25000,
+  "n_applications": 75000,
+  "n_features": 32,
+  "application_date": "2025-07-01T00:00:00+00:00",
+  "history_months": 24,
+  "future_months": 12,
+  "training_data_type": "synthetic_counterfactuals",
+  "calibration_status": "assumption_baseline_not_empirically_calibrated",
+  "default_rate": 0.56628,
+  "default_rate_by_alternative": {
+    "amount_level_1": 0.46648,
+    "amount_level_2": 0.56576,
+    "amount_level_3": 0.6666
+  },
+  "split": [
+    {
+      "split": "train",
+      "companies": 17500,
+      "applications": 52500,
+      "default_rate": 0.5681714285714285
+    },
+    {
+      "split": "early_stopping",
+      "companies": 1875,
+      "applications": 5625,
+      "default_rate": 0.5509333333333334
+    },
+    {
+      "split": "calibration",
+      "companies": 1875,
+      "applications": 5625,
+      "default_rate": 0.5653333333333334
+    },
+    {
+      "split": "test",
+      "companies": 3750,
+      "applications": 11250,
+      "default_rate": 0.5656
+    }
+  ],
+  "model_tree_count": 423,
+  "test_metrics": {
+    "raw": {
+      "ROC_AUC": 0.9684092616341643,
+      "Average_Precision": 0.9786002624129985,
+      "Brier": 0.06845491639542561,
+      "LogLoss": 0.22359599640518096,
+      "ECE_10_bins": 0.012496834736415552
+    },
+    "isotonic": {
+      "ROC_AUC": 0.9680912944987972,
+      "Average_Precision": 0.9761272153401701,
+      "Brier": 0.06861720177476299,
+      "LogLoss": 0.22576744079806102,
+      "ECE_10_bins": 0.009026911076257344
+    },
+    "selected": {
+      "ROC_AUC": 0.9684092616341643,
+      "Average_Precision": 0.9786002624129985,
+      "Brier": 0.06845491639542561,
+      "LogLoss": 0.22359599640518096,
+      "ECE_10_bins": 0.012496834736415552
+    }
+  },
+  "stress_monotonicity_violations": 43,
+  "stress_test_company_count": 3750,
+  "calibration_selection": {
+    "raw_brier": 0.06447476953204175,
+    "isotonic_oof_brier": 0.06469248861423745,
+    "criterion": "company-group 5-fold calibration-only OOF Brier; test never used",
+    "selected_mode": "raw"
+  },
+  "checks_passed": 31,
+  "checks_total": 31,
+  "versions": {
+    "numpy": "1.26.4",
+    "pandas": "2.2.3",
+    "scikit-learn": "1.4.2",
+    "catboost": "1.2.10",
+    "matplotlib": "3.8.4"
+  },
+  "known_contract_decisions": [
+    "msp_category uses a simplified synthetic scale, not legal FNS determination",
+    "latent_default_probability is NULL; the future path produces one realized outcome, not an analytical probability",
+    "ogrn is a DEMO string; INN has checksum and demo prefix 00, requires test identifiers support",
+    "candidate fields included under a new feature schema; backend must adopt this contract explicitly",
+    "full Decision Engine is not reimplemented; legacy demo decisions are not guaranteed by PD"
+  ]
+}

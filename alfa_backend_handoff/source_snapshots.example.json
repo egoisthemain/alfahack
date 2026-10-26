@@ -1,0 +1,75 @@
+{
+  "company": {
+    "company_id": "C0000001",
+    "inn": "0000000018",
+    "ogrn": "DEMO-REG-00000001",
+    "name": "Синтетическая компания 1",
+    "legal_form": "OOO",
+    "msp_category": "MICRO",
+    "registration_date": "2023-04-01",
+    "status": "ACTIVE",
+    "okved": "47.19",
+    "director": "Демо-руководитель 1",
+    "founders": [
+      {
+        "name": "Демо-учредитель 1",
+        "share": 1.0
+      }
+    ],
+    "address": "Тестовый адрес, запись 1",
+    "industry_group": "TRADE"
+  },
+  "business_checks": {
+    "check_id": "P0000001",
+    "company_id": "C0000001",
+    "mass_address": false,
+    "director_disqualified": false,
+    "no_reporting_12m": true,
+    "employees": 1,
+    "enforcement_debt_rub": 0.0,
+    "check_as_of_date": "2025-06-30"
+  },
+  "financial_profile": {
+    "financial_profile_id": "F0000001",
+    "company_id": "C0000001",
+    "financial_as_of_date": "2025-06-30",
+    "verified_annual_revenue": 7537505.24,
+    "annual_operating_expenses": 6464675.65,
+    "annual_operating_profit": 1072829.59,
+    "operating_margin": 0.1423321849657513,
+    "cashflow_available_for_debt_12m": 845822.4,
+    "cash_balance_rub": 0.0,
+    "revenue_growth_12m": 0.2811460804815733,
+    "revenue_volatility_12m": 0.1481890559778346,
+    "negative_cashflow_months_12m": 0,
+    "revenue_discrepancy_ratio": 0.0407950310094908
+  },
+  "bki_profile": {
+    "bki_record_id": "B0000001",
+    "company_id": "C0000001",
+    "rating": 791.0,
+    "existing_monthly_payment_rub": 0.0,
+    "current_overdue_days": 15,
+    "max_overdue_days_12m": 15,
+    "bankruptcy": false,
+    "loans": [],
+    "outstanding_debt_rub": 0.0,
+    "active_loans_count": 0,
+    "bki_as_of_date": "2025-06-30"
+  },
+  "application": {
+    "application_id": "A0000001-1",
+    "company_id": "C0000001",
+    "inn": "0000000018",
+    "product": "EXPRESS",
+    "amount": 510000,
+    "term_months": 24,
+    "purpose": "Оборотные средства",
+    "declared_annual_revenue": 7844998,
+    "bki_consent": true,
+    "equipment_cost": null,
+    "supplier_document_id": null,
+    "submitted_at": "2025-07-01T00:00:00+00:00",
+    "status": "ISSUED"
+  }
+}

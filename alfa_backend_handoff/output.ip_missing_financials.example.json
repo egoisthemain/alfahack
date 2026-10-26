@@ -1,0 +1,11 @@
+{
+  "request_id": "score-A0000008-1",
+  "application_id": "A0000008-1",
+  "feature_schema_version": "alpha-v1.1-unified-features-1",
+  "model_id": "sha256:cd5fe378353fb0c47d1527fcb803e7beb0f800ca75a5636542c5025d87a2c20c",
+  "pd": 0.0005491025643879076,
+  "pd_grade": "A",
+  "prediction_horizon_months": 12,
+  "calibration_method": "raw",
+  "training_data_type": "synthetic_counterfactuals"
+}

@@ -1,0 +1,74 @@
+{
+  "feature_schema_version": "alpha-v1.1-unified-features-1",
+  "verification_checks_passed": 17,
+  "files": [
+    {
+      "path": "README_backend.md",
+      "sha256": "8a01f07bf0bcf0f59fa07ff3f19fa9eaec2e44b0e1b4eb1fb30c37c4fbce3f98"
+    },
+    {
+      "path": "error.example.json",
+      "sha256": "66ff926824e6706e4a694274d9c036a802dbc8c4a5c62053c8954c84d93f4dc9"
+    },
+    {
+      "path": "feature_builder.py",
+      "sha256": "7fde0c06e9b95f3b889c8ec0bb83e2c039a8537c0e034ebdf85267737ac157bb"
+    },
+    {
+      "path": "input.example.json",
+      "sha256": "b2c7423c6ee3d3094d15e293f39faf8dcbba10c00736a431697b145c4c55e378"
+    },
+    {
+      "path": "input.ip_missing_financials.example.json",
+      "sha256": "b88dc1e801709c04728da6d99c64cca986e8c019ec1d2eb8505edbb5d772ea45"
+    },
+    {
+      "path": "models/catboost_pd.cbm",
+      "sha256": "cd5fe378353fb0c47d1527fcb803e7beb0f800ca75a5636542c5025d87a2c20c"
+    },
+    {
+      "path": "models/feature_contract.json",
+      "sha256": "1a5d5ff4e1c47367e1674030c5a76892447b8c110a0d0e517c029674b168d66f"
+    },
+    {
+      "path": "models/isotonic_calibration.json",
+      "sha256": "ae7208ff7ab236e668ab71b7723dac5fddbbd78522fcf8adb64d0b0a014ee28b"
+    },
+    {
+      "path": "models/model_metadata.json",
+      "sha256": "0350598b83434b0165b58b8598e36a436cc91f3c0613df37418581d6390c2bd1"
+    },
+    {
+      "path": "output.example.json",
+      "sha256": "bbf968f8d748d83091ac2cb3a80a1b041417c2deac5fe9bcacbc3f5e353e33e4"
+    },
+    {
+      "path": "output.ip_missing_financials.example.json",
+      "sha256": "81a951145d91c1db9f265f7702bd930dd9fef150b17e92b67697f55f8ae1bbe5"
+    },
+    {
+      "path": "request.schema.json",
+      "sha256": "7aca7c58be998204924f8e156b19271aa86bee40af6e3853eac3116c3047f298"
+    },
+    {
+      "path": "requirements.txt",
+      "sha256": "9bbbd0b356d62892a07c3ec2087dd102c08dba66828db1bd07d8731a534242ef"
+    },
+    {
+      "path": "response.schema.json",
+      "sha256": "8298642d810de09061c49285191a8cc73e8321dbdf1ca1a68c4d72cdcd9776e3"
+    },
+    {
+      "path": "scoring_adapter.py",
+      "sha256": "9bb2eb547b8f8c11b041bcfae370fd153c3c475d508e216cd4ffc810ee030eb8"
+    },
+    {
+      "path": "source_snapshots.example.json",
+      "sha256": "cb56013fac5826ababa03d71334caa70d0a87e0dae3a3abea7b1c7ee9f50a7e4"
+    },
+    {
+      "path": "verification.json",
+      "sha256": "30478ddceefe7746d0367d7b91c31e3da9ec05ae2c0c4cdceab0210cc9b6983d"
+    }
+  ]
+}

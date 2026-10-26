@@ -23,9 +23,13 @@ type HealthResponse struct {
 }
 
 type Company struct {
-	ID   int64  `json:"company_id"`
-	INN  string `json:"inn"`
-	Name string `json:"name"`
+	ID               int64     `json:"company_id"`
+	INN              string    `json:"inn"`
+	Name             string    `json:"name"`
+	LegalForm        string    `json:"legal_form"`
+	RegistrationDate time.Time `json:"registration_date"`
+	Status           string    `json:"status"`
+	OKVED            string    `json:"okved"`
 }
 
 type App struct {
@@ -127,7 +131,7 @@ func getCompanyByINN(
 ) (Company, error) {
 	company := Company{}
 	query := `
-		SELECT company_id, inn, name
+		SELECT company_id, inn, name, legal_form, registration_date, status, okved
 		FROM companies
 		WHERE inn = $1	
 	`
@@ -135,6 +139,10 @@ func getCompanyByINN(
 		&company.ID,
 		&company.INN,
 		&company.Name,
+		&company.LegalForm,
+		&company.RegistrationDate,
+		&company.Status,
+		&company.OKVED,
 	)
 	if err != nil {
 		return Company{}, err
@@ -231,7 +239,7 @@ func submitApplication(
 	application := Application{}
 	query := `
 		UPDATE applications
-		SET status = 'SUBMITTED'
+		SET status = 'SUBMITTED', submitted_at = COALESCE(submitted_at, now())
 		WHERE application_id = $1 AND status = 'DRAFT'
 		RETURNING application_id, company_id, status, created_at;
 	
@@ -345,6 +353,7 @@ func (app *App) applicationsHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	r.Body = http.MaxBytesReader(w, r.Body, 1<<20)
 	decoder := json.NewDecoder(r.Body)
 	decoder.DisallowUnknownFields()
 	var extra any
@@ -466,8 +475,13 @@ func (app *App) applicationsHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	if s, ok := session(r); ok && s.Role == "client" && s.CompanyID != company.ID {
+		_ = writeJSON(w, http.StatusForbidden, ErrorMsg{"FORBIDDEN", "Нельзя создавать заявку другой компании"})
+		return
+	}
 	application, createAppErr := createApplication(ctx, app.DB, company.ID, appReq)
 	if createAppErr != nil {
+		logger.Error("create application error", "error", createAppErr)
 		err := writeJSON(w, http.StatusInternalServerError, ErrorMsg{
 			Code:    "INTERNAL_ERROR",
 			Message: "internal error",
@@ -608,6 +622,7 @@ func main() {
 	databaseURL := os.Getenv("DATABASE_URL")
 	if databaseURL == "" {
 		logger.Error("DATABASE_URL is empty", "error", "DATABASE_URL is empty")
+		return
 	}
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
@@ -627,17 +642,14 @@ func main() {
 		Logger: logger,
 	}
 
-	ctx, cancel = context.WithTimeout(context.Background(), 5*time.Second)
-	company, err := getCompanyByINN(ctx, pool, "7700000001")
-	cancel()
-	if errors.Is(err, pgx.ErrNoRows) {
-		logger.Error("no row", "error", err)
-		return
-	} else if err != nil {
-		logger.Error("get company error", "error", err)
-		return
-	} else {
-		slog.Info("get company", "company_id", company.ID, "inn", company.INN, "name", company.Name)
+	if os.Getenv("DEMO_SEED") == "true" {
+		ctx, cancel = context.WithTimeout(context.Background(), 30*time.Second)
+		err = prepareDemo(ctx, pool)
+		cancel()
+		if err != nil {
+			logger.Error("demo preparation failed", "error", err)
+			return
+		}
 	}
 
 	mux := http.NewServeMux()
@@ -646,13 +658,34 @@ func main() {
 	mux.HandleFunc("GET /companies/{inn}", app.companyHandler)
 	mux.HandleFunc("GET /applications/{id}", app.applicationHandler)
 	mux.HandleFunc("POST /applications/{id}/submit", app.submitApplicationHandler)
+	mux.HandleFunc("POST /demo/login", app.loginHandler)
+	mux.HandleFunc("GET /companies", app.companiesHandler)
+	mux.HandleFunc("GET /applications", app.listHandler)
+	mux.HandleFunc("GET /applications/{id}/detail", app.detailHandler)
+	mux.HandleFunc("GET /applications/{id}/history", app.historyHandler)
+	mux.HandleFunc("POST /applications/{id}/process", app.processHandler)
+	mux.HandleFunc("PATCH /applications/{id}", app.reviseHandler)
+	mux.HandleFunc("POST /applications/{id}/decision", app.manualHandler)
+	mux.HandleFunc("POST /applications/{id}/{action}", app.actionHandler)
+	mux.HandleFunc("POST /documents", app.documentHandler)
+	mux.HandleFunc("GET /documents/{id}", app.downloadHandler)
+	mux.HandleFunc("GET /applications/{id}/audit", app.auditHandler)
+	frontendDir := os.Getenv("FRONTEND_DIR")
+	if frontendDir == "" {
+		frontendDir = "../frontend/dist"
+	}
+	mux.Handle("/", http.FileServer(http.Dir(frontendDir)))
 
-	slog.Info("server started", "address", "localhost:8080")
+	address := os.Getenv("HTTP_ADDR")
+	if address == "" {
+		address = "localhost:8080"
+	}
+	logger.Info("server started", "address", address)
 
-	err = http.ListenAndServe("localhost:8080", mux)
+	err = http.ListenAndServe(address, app.authorize(mux))
 	if err != nil {
 		slog.Error("server stopped", "error", err)
-		os.Exit(1)
+		return
 	}
 
 }

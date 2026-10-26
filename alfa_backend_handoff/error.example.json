@@ -1,0 +1,14 @@
+{
+  "request_id": "score-A0000001-1",
+  "application_id": "A0000001-1",
+  "error": {
+    "code": "INVALID_REQUEST",
+    "message": "Request does not match the model input contract",
+    "details": [
+      {
+        "path": "features",
+        "message": "'projected_dscr' is a required property"
+      }
+    ]
+  }
+}

@@ -1,0 +1,15 @@
+Components used by this demonstration:
+- Go standard library (BSD-style Go license), version declared in backend/go.mod.
+- github.com/jackc/pgx/v5 (MIT), dependencies recorded in backend/go.mod and go.sum.
+- PostgreSQL 17 (PostgreSQL License), official Docker image.
+- Python 3.11 Docker base image (Python Software Foundation License).
+- CatBoost 1.2.10 (Apache-2.0); NumPy 1.26.4 and pandas 2.2.3 (BSD-3-Clause); jsonschema 4.19.2 (MIT).
+- Transitive Python dependencies retain their upstream licenses; requirements.txt fixes the team's principal runtime dependencies.
+
+Model: supplied by the hackathon ML team in alfa_backend_handoff/models/catboost_pd.cbm.
+SHA-256: cd5fe378353fb0c47d1527fcb803e7beb0f800ca75a5636542c5025d87a2c20c.
+Training data type supplied by the team: synthetic_counterfactuals. Dataset/model reuse terms beyond this hackathon were not provided and are not implied here.
+
+Simulated integrations: EGRUL/EGRIP, Transparent Business, credit bureau and internal financial data are local synthetic profiles stored in PostgreSQL. No actual bank or government services are queried. Uploaded documents are demonstration files. Signing and loan disbursement do not execute real transactions.
+
+The Alfa name and visual references identify the hackathon case, not an official banking service.

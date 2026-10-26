@@ -1,0 +1,84 @@
+{
+  "checks_passed": 17,
+  "checks": [
+    {
+      "check": "example request has exactly 32 feature fields",
+      "passed": true
+    },
+    {
+      "check": "primary source builder and JSON adapter agree",
+      "passed": true
+    },
+    {
+      "check": "IP null applicability and fallback revenue",
+      "passed": true
+    },
+    {
+      "check": "output uses selected calibration mode",
+      "passed": true
+    },
+    {
+      "check": "probability is fraction from zero to one",
+      "passed": true
+    },
+    {
+      "check": "JSON key order does not change prediction",
+      "passed": true
+    },
+    {
+      "check": "missing_feature rejected with 422",
+      "passed": true
+    },
+    {
+      "check": "extra_target rejected with 422",
+      "passed": true
+    },
+    {
+      "check": "unknown_category rejected with 422",
+      "passed": true
+    },
+    {
+      "check": "wrong_schema_version rejected with 422",
+      "passed": true
+    },
+    {
+      "check": "NaN_on_wire rejected with 422",
+      "passed": true
+    },
+    {
+      "check": "boolean_instead_of_numeric_flag rejected with 422",
+      "passed": true
+    },
+    {
+      "check": "future_snapshot blocked by source adapter",
+      "passed": true
+    },
+    {
+      "check": "stop_factor blocked by source adapter",
+      "passed": true
+    },
+    {
+      "check": "missing_consent blocked by source adapter",
+      "passed": true
+    },
+    {
+      "check": "different_company_id blocked by source adapter",
+      "passed": true
+    },
+    {
+      "check": "PD grade boundaries match published contract",
+      "passed": true
+    }
+  ],
+  "actual_response": {
+    "request_id": "score-A0000001-1",
+    "application_id": "A0000001-1",
+    "feature_schema_version": "alpha-v1.1-unified-features-1",
+    "model_id": "sha256:cd5fe378353fb0c47d1527fcb803e7beb0f800ca75a5636542c5025d87a2c20c",
+    "pd": 0.026779217258366402,
+    "pd_grade": "A",
+    "prediction_horizon_months": 12,
+    "calibration_method": "raw",
+    "training_data_type": "synthetic_counterfactuals"
+  }
+}

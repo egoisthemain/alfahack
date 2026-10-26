@@ -1,0 +1,932 @@
+[
+  {
+    "company": {
+      "company_id": "1",
+      "inn": "7700000001",
+      "ogrn": "DEMO-REG-00000001",
+      "name": "Demo Company 01",
+      "legal_form": "OOO",
+      "msp_category": "MICRO",
+      "registration_date": "2022-10-01",
+      "status": "ACTIVE",
+      "okved": "47.11",
+      "director": "Демо-руководитель 1",
+      "founders": [
+        {
+          "name": "Демо-учредитель 1",
+          "share": 1.0
+        }
+      ],
+      "address": "Тестовый адрес, запись 1",
+      "industry_group": "TRADE"
+    },
+    "business_checks": {
+      "check_id": "P0000001",
+      "company_id": "1",
+      "mass_address": false,
+      "director_disqualified": false,
+      "no_reporting_12m": false,
+      "employees": 12,
+      "enforcement_debt_rub": 0,
+      "check_as_of_date": "2026-10-01"
+    },
+    "financial_profile": {
+      "financial_profile_id": "F0000001",
+      "company_id": "1",
+      "financial_as_of_date": "2026-10-01",
+      "verified_annual_revenue": 24000000.0,
+      "annual_operating_expenses": 19200000.0,
+      "annual_operating_profit": 4800000.0,
+      "operating_margin": 0.2,
+      "cashflow_available_for_debt_12m": 4320000.0,
+      "cash_balance_rub": 720000.0,
+      "revenue_growth_12m": 0.07,
+      "revenue_volatility_12m": 0.18,
+      "negative_cashflow_months_12m": 1,
+      "revenue_discrepancy_ratio": 0.0407950310094908
+    },
+    "bki_profile": {
+      "bki_record_id": "B0000001",
+      "company_id": "1",
+      "rating": 780,
+      "existing_monthly_payment_rub": 100000,
+      "current_overdue_days": 0,
+      "max_overdue_days_12m": 0,
+      "bankruptcy": false,
+      "loans": [
+        {
+          "type": "business_loan",
+          "outstanding_rub": 900000,
+          "monthly_payment_rub": 100000
+        }
+      ],
+      "outstanding_debt_rub": 900000,
+      "active_loans_count": 1,
+      "bki_as_of_date": "2026-10-01"
+    },
+    "application": {},
+    "demo_request": {
+      "inn": "7700000001",
+      "product": "EXPRESS",
+      "amount": 2000000,
+      "term_months": 24,
+      "purpose": "Working capital",
+      "annual_revenue": 24000000,
+      "bki_consent": true,
+      "equipment_cost": null,
+      "supplier_document_id": null
+    }
+  },
+  {
+    "company": {
+      "company_id": "2",
+      "inn": "7700000002",
+      "ogrn": "DEMO-REG-00000001",
+      "name": "Demo Company 02",
+      "legal_form": "OOO",
+      "msp_category": "MICRO",
+      "registration_date": "2024-04-01",
+      "status": "ACTIVE",
+      "okved": "62.01",
+      "director": "Демо-руководитель 1",
+      "founders": [
+        {
+          "name": "Демо-учредитель 1",
+          "share": 1.0
+        }
+      ],
+      "address": "Тестовый адрес, запись 1",
+      "industry_group": "IT"
+    },
+    "business_checks": {
+      "check_id": "P0000001",
+      "company_id": "2",
+      "mass_address": false,
+      "director_disqualified": false,
+      "no_reporting_12m": false,
+      "employees": 12,
+      "enforcement_debt_rub": 0,
+      "check_as_of_date": "2026-10-01"
+    },
+    "financial_profile": {
+      "financial_profile_id": "F0000001",
+      "company_id": "2",
+      "financial_as_of_date": "2026-10-01",
+      "verified_annual_revenue": 12000000.0,
+      "annual_operating_expenses": 9600000.0,
+      "annual_operating_profit": 2400000.0,
+      "operating_margin": 0.2,
+      "cashflow_available_for_debt_12m": 2160000.0,
+      "cash_balance_rub": 360000.0,
+      "revenue_growth_12m": 0.07,
+      "revenue_volatility_12m": 0.18,
+      "negative_cashflow_months_12m": 1,
+      "revenue_discrepancy_ratio": 0.0407950310094908
+    },
+    "bki_profile": {
+      "bki_record_id": "B0000001",
+      "company_id": "2",
+      "rating": 690,
+      "existing_monthly_payment_rub": 150000,
+      "current_overdue_days": 0,
+      "max_overdue_days_12m": 30,
+      "bankruptcy": false,
+      "loans": [
+        {
+          "type": "business_loan",
+          "outstanding_rub": 1350000,
+          "monthly_payment_rub": 150000
+        }
+      ],
+      "outstanding_debt_rub": 1350000,
+      "active_loans_count": 1,
+      "bki_as_of_date": "2026-10-01"
+    },
+    "application": {},
+    "demo_request": {
+      "inn": "7700000002",
+      "product": "EXPRESS",
+      "amount": 1500000,
+      "term_months": 36,
+      "purpose": "Working capital",
+      "annual_revenue": 12000000,
+      "bki_consent": true,
+      "equipment_cost": null,
+      "supplier_document_id": null
+    }
+  },
+  {
+    "company": {
+      "company_id": "3",
+      "inn": "7700000003",
+      "ogrn": "DEMO-REG-00000001",
+      "name": "Demo Company 03",
+      "legal_form": "IP",
+      "msp_category": "MICRO",
+      "registration_date": "2020-10-01",
+      "status": "ACTIVE",
+      "okved": "47.11",
+      "director": "Демо-руководитель 1",
+      "founders": [
+        {
+          "name": "Демо-учредитель 1",
+          "share": 1.0
+        }
+      ],
+      "address": "Тестовый адрес, запись 1",
+      "industry_group": "TRADE"
+    },
+    "business_checks": {
+      "check_id": "P0000001",
+      "company_id": "3",
+      "mass_address": false,
+      "director_disqualified": false,
+      "no_reporting_12m": null,
+      "employees": 3,
+      "enforcement_debt_rub": 0,
+      "check_as_of_date": "2026-10-01"
+    },
+    "financial_profile": {
+      "financial_profile_id": "F0000001",
+      "company_id": "3",
+      "financial_as_of_date": "2026-10-01",
+      "verified_annual_revenue": 6000000.0,
+      "annual_operating_expenses": 4800000.0,
+      "annual_operating_profit": 1200000.0,
+      "operating_margin": 0.2,
+      "cashflow_available_for_debt_12m": 1080000.0,
+      "cash_balance_rub": 180000.0,
+      "revenue_growth_12m": 0.07,
+      "revenue_volatility_12m": 0.18,
+      "negative_cashflow_months_12m": 1,
+      "revenue_discrepancy_ratio": 0.0407950310094908
+    },
+    "bki_profile": {
+      "bki_record_id": "B0000001",
+      "company_id": "3",
+      "rating": 760,
+      "existing_monthly_payment_rub": 0,
+      "current_overdue_days": 0,
+      "max_overdue_days_12m": 0,
+      "bankruptcy": false,
+      "loans": [],
+      "outstanding_debt_rub": 0,
+      "active_loans_count": 0,
+      "bki_as_of_date": "2026-10-01"
+    },
+    "application": {},
+    "demo_request": {
+      "inn": "7700000003",
+      "product": "EXPRESS",
+      "amount": 4000000,
+      "term_months": 24,
+      "purpose": "Working capital",
+      "annual_revenue": 6000000,
+      "bki_consent": true,
+      "equipment_cost": null,
+      "supplier_document_id": null
+    }
+  },
+  {
+    "company": {
+      "company_id": "4",
+      "inn": "7700000004",
+      "ogrn": "DEMO-REG-00000001",
+      "name": "Demo Company 04",
+      "legal_form": "IP",
+      "msp_category": "MICRO",
+      "registration_date": "2025-12-01",
+      "status": "ACTIVE",
+      "okved": "47.19",
+      "director": "Демо-руководитель 1",
+      "founders": [
+        {
+          "name": "Демо-учредитель 1",
+          "share": 1.0
+        }
+      ],
+      "address": "Тестовый адрес, запись 1",
+      "industry_group": "TRADE"
+    },
+    "business_checks": {
+      "check_id": "P0000001",
+      "company_id": "4",
+      "mass_address": false,
+      "director_disqualified": false,
+      "no_reporting_12m": null,
+      "employees": 3,
+      "enforcement_debt_rub": 0,
+      "check_as_of_date": "2026-10-01"
+    },
+    "financial_profile": {
+      "financial_profile_id": "F0000001",
+      "company_id": "4",
+      "financial_as_of_date": "2026-10-01",
+      "verified_annual_revenue": 9600000.0,
+      "annual_operating_expenses": 7680000.0,
+      "annual_operating_profit": 1920000.0,
+      "operating_margin": 0.2,
+      "cashflow_available_for_debt_12m": 1728000.0,
+      "cash_balance_rub": 288000.0,
+      "revenue_growth_12m": null,
+      "revenue_volatility_12m": 0.18,
+      "negative_cashflow_months_12m": 1,
+      "revenue_discrepancy_ratio": 0.0407950310094908
+    },
+    "bki_profile": {
+      "bki_record_id": "B0000001",
+      "company_id": "4",
+      "rating": 640,
+      "existing_monthly_payment_rub": 200000,
+      "current_overdue_days": 0,
+      "max_overdue_days_12m": 30,
+      "bankruptcy": false,
+      "loans": [
+        {
+          "type": "business_loan",
+          "outstanding_rub": 1800000,
+          "monthly_payment_rub": 200000
+        }
+      ],
+      "outstanding_debt_rub": 1800000,
+      "active_loans_count": 1,
+      "bki_as_of_date": "2026-10-01"
+    },
+    "application": {},
+    "demo_request": {
+      "inn": "7700000004",
+      "product": "EXPRESS",
+      "amount": 1000000,
+      "term_months": 12,
+      "purpose": "Working capital",
+      "annual_revenue": 9600000,
+      "bki_consent": true,
+      "equipment_cost": null,
+      "supplier_document_id": null
+    }
+  },
+  {
+    "company": {
+      "company_id": "5",
+      "inn": "7700000005",
+      "ogrn": "DEMO-REG-00000001",
+      "name": "Demo Company 05",
+      "legal_form": "OOO",
+      "msp_category": "MICRO",
+      "registration_date": "2026-02-01",
+      "status": "ACTIVE",
+      "okved": "43.21",
+      "director": "Демо-руководитель 1",
+      "founders": [
+        {
+          "name": "Демо-учредитель 1",
+          "share": 1.0
+        }
+      ],
+      "address": "Тестовый адрес, запись 1",
+      "industry_group": "CONSTRUCTION"
+    },
+    "business_checks": {
+      "check_id": "P0000001",
+      "company_id": "5",
+      "mass_address": false,
+      "director_disqualified": false,
+      "no_reporting_12m": false,
+      "employees": 12,
+      "enforcement_debt_rub": 0,
+      "check_as_of_date": "2026-10-01"
+    },
+    "financial_profile": {
+      "financial_profile_id": "F0000001",
+      "company_id": "5",
+      "financial_as_of_date": "2026-10-01",
+      "verified_annual_revenue": 4800000.0,
+      "annual_operating_expenses": 3840000.0,
+      "annual_operating_profit": 960000.0,
+      "operating_margin": 0.2,
+      "cashflow_available_for_debt_12m": 864000.0,
+      "cash_balance_rub": 144000.0,
+      "revenue_growth_12m": null,
+      "revenue_volatility_12m": 0.18,
+      "negative_cashflow_months_12m": 1,
+      "revenue_discrepancy_ratio": 0.0407950310094908
+    },
+    "bki_profile": {
+      "bki_record_id": "B0000001",
+      "company_id": "5",
+      "rating": 600,
+      "existing_monthly_payment_rub": 120000,
+      "current_overdue_days": 0,
+      "max_overdue_days_12m": 30,
+      "bankruptcy": false,
+      "loans": [
+        {
+          "type": "business_loan",
+          "outstanding_rub": 1080000,
+          "monthly_payment_rub": 120000
+        }
+      ],
+      "outstanding_debt_rub": 1080000,
+      "active_loans_count": 1,
+      "bki_as_of_date": "2026-10-01"
+    },
+    "application": {},
+    "demo_request": {
+      "inn": "7700000005",
+      "product": "EXPRESS",
+      "amount": 800000,
+      "term_months": 24,
+      "purpose": "Working capital",
+      "annual_revenue": 4800000,
+      "bki_consent": true,
+      "equipment_cost": null,
+      "supplier_document_id": null
+    }
+  },
+  {
+    "company": {
+      "company_id": "6",
+      "inn": "7700000006",
+      "ogrn": "DEMO-REG-00000001",
+      "name": "Demo Company 06",
+      "legal_form": "IP",
+      "msp_category": "MICRO",
+      "registration_date": "2026-05-01",
+      "status": "ACTIVE",
+      "okved": "47.11",
+      "director": "Демо-руководитель 1",
+      "founders": [
+        {
+          "name": "Демо-учредитель 1",
+          "share": 1.0
+        }
+      ],
+      "address": "Тестовый адрес, запись 1",
+      "industry_group": "TRADE"
+    },
+    "business_checks": {
+      "check_id": "P0000001",
+      "company_id": "6",
+      "mass_address": true,
+      "director_disqualified": false,
+      "no_reporting_12m": null,
+      "employees": 3,
+      "enforcement_debt_rub": 0,
+      "check_as_of_date": "2026-10-01"
+    },
+    "financial_profile": {
+      "financial_profile_id": "F0000001",
+      "company_id": "6",
+      "financial_as_of_date": "2026-10-01",
+      "verified_annual_revenue": 2400000.0,
+      "annual_operating_expenses": 1920000.0,
+      "annual_operating_profit": 480000.0,
+      "operating_margin": 0.2,
+      "cashflow_available_for_debt_12m": 432000.0,
+      "cash_balance_rub": 72000.0,
+      "revenue_growth_12m": null,
+      "revenue_volatility_12m": 0.18,
+      "negative_cashflow_months_12m": 1,
+      "revenue_discrepancy_ratio": 0.0407950310094908
+    },
+    "bki_profile": {
+      "bki_record_id": "B0000001",
+      "company_id": "6",
+      "rating": 480,
+      "existing_monthly_payment_rub": 90000,
+      "current_overdue_days": 0,
+      "max_overdue_days_12m": 60,
+      "bankruptcy": false,
+      "loans": [
+        {
+          "type": "business_loan",
+          "outstanding_rub": 810000,
+          "monthly_payment_rub": 90000
+        }
+      ],
+      "outstanding_debt_rub": 810000,
+      "active_loans_count": 1,
+      "bki_as_of_date": "2026-10-01"
+    },
+    "application": {},
+    "demo_request": {
+      "inn": "7700000006",
+      "product": "EXPRESS",
+      "amount": 1000000,
+      "term_months": 12,
+      "purpose": "Working capital",
+      "annual_revenue": 2400000,
+      "bki_consent": true,
+      "equipment_cost": null,
+      "supplier_document_id": null
+    }
+  },
+  {
+    "company": {
+      "company_id": "7",
+      "inn": "7700000007",
+      "ogrn": "DEMO-REG-00000001",
+      "name": "Demo Company 07",
+      "legal_form": "OOO",
+      "msp_category": "MICRO",
+      "registration_date": "2022-10-01",
+      "status": "LIQUIDATING",
+      "okved": "47.11",
+      "director": "Демо-руководитель 1",
+      "founders": [
+        {
+          "name": "Демо-учредитель 1",
+          "share": 1.0
+        }
+      ],
+      "address": "Тестовый адрес, запись 1",
+      "industry_group": "TRADE"
+    },
+    "business_checks": {
+      "check_id": "P0000001",
+      "company_id": "7",
+      "mass_address": false,
+      "director_disqualified": false,
+      "no_reporting_12m": false,
+      "employees": 12,
+      "enforcement_debt_rub": 0,
+      "check_as_of_date": "2026-10-01"
+    },
+    "financial_profile": {
+      "financial_profile_id": "F0000001",
+      "company_id": "7",
+      "financial_as_of_date": "2026-10-01",
+      "verified_annual_revenue": 24000000.0,
+      "annual_operating_expenses": 19200000.0,
+      "annual_operating_profit": 4800000.0,
+      "operating_margin": 0.2,
+      "cashflow_available_for_debt_12m": 4320000.0,
+      "cash_balance_rub": 720000.0,
+      "revenue_growth_12m": 0.07,
+      "revenue_volatility_12m": 0.18,
+      "negative_cashflow_months_12m": 1,
+      "revenue_discrepancy_ratio": 0.0407950310094908
+    },
+    "bki_profile": {
+      "bki_record_id": "B0000001",
+      "company_id": "7",
+      "rating": 780,
+      "existing_monthly_payment_rub": 100000,
+      "current_overdue_days": 0,
+      "max_overdue_days_12m": 0,
+      "bankruptcy": false,
+      "loans": [
+        {
+          "type": "business_loan",
+          "outstanding_rub": 900000,
+          "monthly_payment_rub": 100000
+        }
+      ],
+      "outstanding_debt_rub": 900000,
+      "active_loans_count": 1,
+      "bki_as_of_date": "2026-10-01"
+    },
+    "application": {},
+    "demo_request": {
+      "inn": "7700000007",
+      "product": "EXPRESS",
+      "amount": 2000000,
+      "term_months": 24,
+      "purpose": "Working capital",
+      "annual_revenue": 24000000,
+      "bki_consent": true,
+      "equipment_cost": null,
+      "supplier_document_id": null
+    }
+  },
+  {
+    "company": {
+      "company_id": "8",
+      "inn": "7700000008",
+      "ogrn": "DEMO-REG-00000001",
+      "name": "Demo Company 08",
+      "legal_form": "OOO",
+      "msp_category": "MICRO",
+      "registration_date": "2022-10-01",
+      "status": "ACTIVE",
+      "okved": "47.11",
+      "director": "Демо-руководитель 1",
+      "founders": [
+        {
+          "name": "Демо-учредитель 1",
+          "share": 1.0
+        }
+      ],
+      "address": "Тестовый адрес, запись 1",
+      "industry_group": "TRADE"
+    },
+    "business_checks": {
+      "check_id": "P0000001",
+      "company_id": "8",
+      "mass_address": false,
+      "director_disqualified": false,
+      "no_reporting_12m": false,
+      "employees": 12,
+      "enforcement_debt_rub": 0,
+      "check_as_of_date": "2026-10-01"
+    },
+    "financial_profile": {
+      "financial_profile_id": "F0000001",
+      "company_id": "8",
+      "financial_as_of_date": "2026-10-01",
+      "verified_annual_revenue": 24000000.0,
+      "annual_operating_expenses": 19200000.0,
+      "annual_operating_profit": 4800000.0,
+      "operating_margin": 0.2,
+      "cashflow_available_for_debt_12m": 4320000.0,
+      "cash_balance_rub": 720000.0,
+      "revenue_growth_12m": 0.07,
+      "revenue_volatility_12m": 0.18,
+      "negative_cashflow_months_12m": 1,
+      "revenue_discrepancy_ratio": 0.0407950310094908
+    },
+    "bki_profile": {
+      "bki_record_id": "B0000001",
+      "company_id": "8",
+      "rating": 780,
+      "existing_monthly_payment_rub": 100000,
+      "current_overdue_days": 45,
+      "max_overdue_days_12m": 45,
+      "bankruptcy": false,
+      "loans": [
+        {
+          "type": "business_loan",
+          "outstanding_rub": 900000,
+          "monthly_payment_rub": 100000
+        }
+      ],
+      "outstanding_debt_rub": 900000,
+      "active_loans_count": 1,
+      "bki_as_of_date": "2026-10-01"
+    },
+    "application": {},
+    "demo_request": {
+      "inn": "7700000008",
+      "product": "EXPRESS",
+      "amount": 2000000,
+      "term_months": 24,
+      "purpose": "Working capital",
+      "annual_revenue": 24000000,
+      "bki_consent": true,
+      "equipment_cost": null,
+      "supplier_document_id": null
+    }
+  },
+  {
+    "company": {
+      "company_id": "9",
+      "inn": "7700000009",
+      "ogrn": "DEMO-REG-00000001",
+      "name": "Demo Company 09",
+      "legal_form": "OOO",
+      "msp_category": "MICRO",
+      "registration_date": "2026-08-01",
+      "status": "ACTIVE",
+      "okved": "47.11",
+      "director": "Демо-руководитель 1",
+      "founders": [
+        {
+          "name": "Демо-учредитель 1",
+          "share": 1.0
+        }
+      ],
+      "address": "Тестовый адрес, запись 1",
+      "industry_group": "TRADE"
+    },
+    "business_checks": {
+      "check_id": "P0000001",
+      "company_id": "9",
+      "mass_address": false,
+      "director_disqualified": false,
+      "no_reporting_12m": false,
+      "employees": 12,
+      "enforcement_debt_rub": 0,
+      "check_as_of_date": "2026-10-01"
+    },
+    "financial_profile": {
+      "financial_profile_id": "F0000001",
+      "company_id": "9",
+      "financial_as_of_date": "2026-10-01",
+      "verified_annual_revenue": 24000000.0,
+      "annual_operating_expenses": 19200000.0,
+      "annual_operating_profit": 4800000.0,
+      "operating_margin": 0.2,
+      "cashflow_available_for_debt_12m": 4320000.0,
+      "cash_balance_rub": 720000.0,
+      "revenue_growth_12m": null,
+      "revenue_volatility_12m": 0.18,
+      "negative_cashflow_months_12m": 1,
+      "revenue_discrepancy_ratio": 0.0407950310094908
+    },
+    "bki_profile": {
+      "bki_record_id": "B0000001",
+      "company_id": "9",
+      "rating": 780,
+      "existing_monthly_payment_rub": 100000,
+      "current_overdue_days": 0,
+      "max_overdue_days_12m": 0,
+      "bankruptcy": false,
+      "loans": [
+        {
+          "type": "business_loan",
+          "outstanding_rub": 900000,
+          "monthly_payment_rub": 100000
+        }
+      ],
+      "outstanding_debt_rub": 900000,
+      "active_loans_count": 1,
+      "bki_as_of_date": "2026-10-01"
+    },
+    "application": {},
+    "demo_request": {
+      "inn": "7700000009",
+      "product": "EXPRESS",
+      "amount": 2000000,
+      "term_months": 24,
+      "purpose": "Working capital",
+      "annual_revenue": 24000000,
+      "bki_consent": true,
+      "equipment_cost": null,
+      "supplier_document_id": null
+    }
+  },
+  {
+    "company": {
+      "company_id": "10",
+      "inn": "7700000010",
+      "ogrn": "DEMO-REG-00000001",
+      "name": "Demo Company 10",
+      "legal_form": "OOO",
+      "msp_category": "MICRO",
+      "registration_date": "2022-10-01",
+      "status": "ACTIVE",
+      "okved": "47.11",
+      "director": "Демо-руководитель 1",
+      "founders": [
+        {
+          "name": "Демо-учредитель 1",
+          "share": 1.0
+        }
+      ],
+      "address": "Тестовый адрес, запись 1",
+      "industry_group": "TRADE"
+    },
+    "business_checks": {
+      "check_id": "P0000001",
+      "company_id": "10",
+      "mass_address": false,
+      "director_disqualified": true,
+      "no_reporting_12m": false,
+      "employees": 12,
+      "enforcement_debt_rub": 0,
+      "check_as_of_date": "2026-10-01"
+    },
+    "financial_profile": {
+      "financial_profile_id": "F0000001",
+      "company_id": "10",
+      "financial_as_of_date": "2026-10-01",
+      "verified_annual_revenue": 24000000.0,
+      "annual_operating_expenses": 19200000.0,
+      "annual_operating_profit": 4800000.0,
+      "operating_margin": 0.2,
+      "cashflow_available_for_debt_12m": 4320000.0,
+      "cash_balance_rub": 720000.0,
+      "revenue_growth_12m": 0.07,
+      "revenue_volatility_12m": 0.18,
+      "negative_cashflow_months_12m": 1,
+      "revenue_discrepancy_ratio": 0.0407950310094908
+    },
+    "bki_profile": {
+      "bki_record_id": "B0000001",
+      "company_id": "10",
+      "rating": 780,
+      "existing_monthly_payment_rub": 100000,
+      "current_overdue_days": 0,
+      "max_overdue_days_12m": 0,
+      "bankruptcy": false,
+      "loans": [
+        {
+          "type": "business_loan",
+          "outstanding_rub": 900000,
+          "monthly_payment_rub": 100000
+        }
+      ],
+      "outstanding_debt_rub": 900000,
+      "active_loans_count": 1,
+      "bki_as_of_date": "2026-10-01"
+    },
+    "application": {},
+    "demo_request": {
+      "inn": "7700000010",
+      "product": "EXPRESS",
+      "amount": 2000000,
+      "term_months": 24,
+      "purpose": "Working capital",
+      "annual_revenue": 24000000,
+      "bki_consent": true,
+      "equipment_cost": null,
+      "supplier_document_id": null
+    }
+  },
+  {
+    "company": {
+      "company_id": "11",
+      "inn": "7700000011",
+      "ogrn": "DEMO-REG-00000001",
+      "name": "Demo Company 11",
+      "legal_form": "OOO",
+      "msp_category": "MICRO",
+      "registration_date": "2019-10-01",
+      "status": "ACTIVE",
+      "okved": "25.62",
+      "director": "Демо-руководитель 1",
+      "founders": [
+        {
+          "name": "Демо-учредитель 1",
+          "share": 1.0
+        }
+      ],
+      "address": "Тестовый адрес, запись 1",
+      "industry_group": "MANUFACTURING"
+    },
+    "business_checks": {
+      "check_id": "P0000001",
+      "company_id": "11",
+      "mass_address": false,
+      "director_disqualified": false,
+      "no_reporting_12m": false,
+      "employees": 12,
+      "enforcement_debt_rub": 0,
+      "check_as_of_date": "2026-10-01"
+    },
+    "financial_profile": {
+      "financial_profile_id": "F0000001",
+      "company_id": "11",
+      "financial_as_of_date": "2026-10-01",
+      "verified_annual_revenue": 36000000.0,
+      "annual_operating_expenses": 28800000.0,
+      "annual_operating_profit": 7200000.0,
+      "operating_margin": 0.2,
+      "cashflow_available_for_debt_12m": 6480000.0,
+      "cash_balance_rub": 1080000.0,
+      "revenue_growth_12m": 0.07,
+      "revenue_volatility_12m": 0.18,
+      "negative_cashflow_months_12m": 1,
+      "revenue_discrepancy_ratio": 0.0407950310094908
+    },
+    "bki_profile": {
+      "bki_record_id": "B0000001",
+      "company_id": "11",
+      "rating": 800,
+      "existing_monthly_payment_rub": 300000,
+      "current_overdue_days": 0,
+      "max_overdue_days_12m": 0,
+      "bankruptcy": false,
+      "loans": [
+        {
+          "type": "business_loan",
+          "outstanding_rub": 2700000,
+          "monthly_payment_rub": 300000
+        }
+      ],
+      "outstanding_debt_rub": 2700000,
+      "active_loans_count": 1,
+      "bki_as_of_date": "2026-10-01"
+    },
+    "application": {},
+    "demo_request": {
+      "inn": "7700000011",
+      "product": "EQUIPMENT",
+      "amount": 6000000,
+      "term_months": 60,
+      "purpose": "Purchase of equipment",
+      "annual_revenue": 36000000,
+      "bki_consent": true,
+      "equipment_cost": 7000000,
+      "supplier_document_id": null
+    }
+  },
+  {
+    "company": {
+      "company_id": "12",
+      "inn": "7700000012",
+      "ogrn": "DEMO-REG-00000001",
+      "name": "Demo Company 12",
+      "legal_form": "OOO",
+      "msp_category": "MICRO",
+      "registration_date": "2025-04-01",
+      "status": "ACTIVE",
+      "okved": "28.29",
+      "director": "Демо-руководитель 1",
+      "founders": [
+        {
+          "name": "Демо-учредитель 1",
+          "share": 1.0
+        }
+      ],
+      "address": "Тестовый адрес, запись 1",
+      "industry_group": "MANUFACTURING"
+    },
+    "business_checks": {
+      "check_id": "P0000001",
+      "company_id": "12",
+      "mass_address": false,
+      "director_disqualified": false,
+      "no_reporting_12m": false,
+      "employees": 12,
+      "enforcement_debt_rub": 0,
+      "check_as_of_date": "2026-10-01"
+    },
+    "financial_profile": {
+      "financial_profile_id": "F0000001",
+      "company_id": "12",
+      "financial_as_of_date": "2026-10-01",
+      "verified_annual_revenue": 12000000.0,
+      "annual_operating_expenses": 9600000.0,
+      "annual_operating_profit": 2400000.0,
+      "operating_margin": 0.2,
+      "cashflow_available_for_debt_12m": 2160000.0,
+      "cash_balance_rub": 360000.0,
+      "revenue_growth_12m": null,
+      "revenue_volatility_12m": 0.18,
+      "negative_cashflow_months_12m": 1,
+      "revenue_discrepancy_ratio": 0.0407950310094908
+    },
+    "bki_profile": {
+      "bki_record_id": "B0000001",
+      "company_id": "12",
+      "rating": 700,
+      "existing_monthly_payment_rub": 250000,
+      "current_overdue_days": 0,
+      "max_overdue_days_12m": 30,
+      "bankruptcy": false,
+      "loans": [
+        {
+          "type": "business_loan",
+          "outstanding_rub": 2250000,
+          "monthly_payment_rub": 250000
+        }
+      ],
+      "outstanding_debt_rub": 2250000,
+      "active_loans_count": 1,
+      "bki_as_of_date": "2026-10-01"
+    },
+    "application": {},
+    "demo_request": {
+      "inn": "7700000012",
+      "product": "EQUIPMENT",
+      "amount": 8000000,
+      "term_months": 60,
+      "purpose": "Purchase of equipment",
+      "annual_revenue": 12000000,
+      "bki_consent": true,
+      "equipment_cost": 9000000,
+      "supplier_document_id": null
+    }
+  }
+]

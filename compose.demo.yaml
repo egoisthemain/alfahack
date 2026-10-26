@@ -1,0 +1,46 @@
+name: alfahack-demo
+services:
+  db:
+    image: postgres:17
+    environment:
+      POSTGRES_USER: alfahack
+      POSTGRES_PASSWORD: local_demo_password
+      POSTGRES_DB: alfahack
+    ports:
+      - "127.0.0.1:5435:5432"
+    volumes:
+      - demo_data:/var/lib/postgresql/data
+      - ./backend/migrations:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U alfahack -d alfahack"]
+      interval: 3s
+      timeout: 3s
+      retries: 30
+  model:
+    build: ./alfa_backend_handoff
+    ports:
+      - "127.0.0.1:8001:8000"
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health')"]
+      interval: 10s
+      timeout: 5s
+      retries: 30
+      start_period: 30s
+  api:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    environment:
+      DATABASE_URL: postgres://alfahack:local_demo_password@db:5432/alfahack?sslmode=disable
+      MODEL_URL: http://model:8000
+      HTTP_ADDR: 0.0.0.0:8080
+      DEMO_SEED: "true"
+    ports:
+      - "127.0.0.1:8081:8080"
+    depends_on:
+      db:
+        condition: service_healthy
+      model:
+        condition: service_healthy
+volumes:
+  demo_data:

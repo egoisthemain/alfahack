@@ -1,0 +1,454 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Alfa ML request v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "request_id",
+    "application_id",
+    "feature_schema_version",
+    "features"
+  ],
+  "properties": {
+    "request_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "application_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "feature_schema_version": {
+      "type": "string",
+      "const": "alpha-v1.1-unified-features-1"
+    },
+    "features": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "product",
+        "legal_form",
+        "industry_group",
+        "msp_category",
+        "amount",
+        "term_months",
+        "declared_annual_revenue",
+        "equipment_cost",
+        "business_age_months",
+        "mass_address",
+        "no_reporting_12m",
+        "employees",
+        "enforcement_debt_rub",
+        "rating",
+        "existing_monthly_payment_rub",
+        "max_overdue_days_12m",
+        "outstanding_debt_rub",
+        "active_loans_count",
+        "verified_annual_revenue",
+        "annual_operating_profit",
+        "operating_margin",
+        "cashflow_available_for_debt_12m",
+        "cash_balance_rub",
+        "revenue_growth_12m",
+        "revenue_volatility_12m",
+        "negative_cashflow_months_12m",
+        "revenue_discrepancy_ratio",
+        "monthly_revenue",
+        "new_payment_at_reference_rate",
+        "payment_to_revenue",
+        "loan_amount_to_revenue",
+        "projected_dscr"
+      ],
+      "properties": {
+        "product": {
+          "type": [
+            "string"
+          ],
+          "enum": [
+            "EXPRESS",
+            "EQUIPMENT"
+          ],
+          "description": "Продукт кредита"
+        },
+        "legal_form": {
+          "type": [
+            "string"
+          ],
+          "enum": [
+            "IP",
+            "OOO"
+          ],
+          "description": "Правовая форма"
+        },
+        "industry_group": {
+          "type": [
+            "string"
+          ],
+          "enum": [
+            "TRADE",
+            "CONSTRUCTION",
+            "MANUFACTURING",
+            "IT",
+            "TRANSPORT",
+            "HORECA",
+            "OTHER"
+          ],
+          "description": "Укрупнённая отрасль, вычисленная из ОКВЭД"
+        },
+        "msp_category": {
+          "type": [
+            "string"
+          ],
+          "enum": [
+            "MICRO",
+            "SMALL",
+            "MEDIUM"
+          ],
+          "description": "Категория масштаба МСП из сохранённого профиля"
+        },
+        "amount": {
+          "type": [
+            "integer"
+          ],
+          "description": "Сумма запрашиваемого кредита, рубли",
+          "minimum": 1
+        },
+        "term_months": {
+          "type": [
+            "integer"
+          ],
+          "description": "Срок запрашиваемого кредита, полные месяцы",
+          "minimum": 1
+        },
+        "declared_annual_revenue": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "description": "Заявленная выручка используется только при отсутствии подтверждённой; иначе null",
+          "minimum": 0
+        },
+        "equipment_cost": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "description": "Стоимость оборудования, рубли; EXPRESS -> null",
+          "minimum": 0
+        },
+        "business_age_months": {
+          "type": [
+            "integer"
+          ],
+          "description": "Полные месяцы между регистрацией и заявкой; SF03 проверяется до вызова модели",
+          "minimum": 3
+        },
+        "mass_address": {
+          "type": [
+            "integer"
+          ],
+          "enum": [
+            0,
+            1
+          ],
+          "description": "Массовый адрес: числовой флаг 0/1"
+        },
+        "no_reporting_12m": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "enum": [
+            0,
+            1,
+            null
+          ],
+          "description": "0/1; для IP неприменимо и передаётся null"
+        },
+        "employees": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "description": "Численность наёмных работников; IP может иметь 0; null означает неизвестно",
+          "minimum": 0
+        },
+        "enforcement_debt_rub": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "description": "Исполнительный долг, рубли; null означает неизвестно",
+          "minimum": 0
+        },
+        "rating": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "description": "Кредитный рейтинг условной шкалы 1–999; null при отсутствии",
+          "minimum": 1,
+          "maximum": 999
+        },
+        "existing_monthly_payment_rub": {
+          "type": [
+            "number"
+          ],
+          "description": "Сумма месячных платежей по старым кредитам, рубли",
+          "minimum": 0
+        },
+        "max_overdue_days_12m": {
+          "type": [
+            "integer"
+          ],
+          "description": "Максимальная историческая просрочка за 12 месяцев, дни",
+          "minimum": 0
+        },
+        "outstanding_debt_rub": {
+          "type": [
+            "number"
+          ],
+          "description": "Общий остаток долга по старым кредитам, рубли",
+          "minimum": 0
+        },
+        "active_loans_count": {
+          "type": [
+            "integer"
+          ],
+          "description": "Количество действующих обязательств",
+          "minimum": 0
+        },
+        "verified_annual_revenue": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "description": "Подтверждённая выручка за 12 месяцев, рубли; null при отсутствии",
+          "minimum": 0
+        },
+        "annual_operating_profit": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "description": "Подтверждённая выручка минус операционные расходы, рубли"
+        },
+        "operating_margin": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "description": "Операционная прибыль / подтверждённая выручка, доля; 0.15 означает 15%",
+          "maximum": 1
+        },
+        "cashflow_available_for_debt_12m": {
+          "type": [
+            "number"
+          ],
+          "description": "Денежный поток до долговых платежей за 12 месяцев, рубли; может быть отрицательным"
+        },
+        "cash_balance_rub": {
+          "type": [
+            "number"
+          ],
+          "description": "Денежный остаток, рубли",
+          "minimum": 0
+        },
+        "revenue_growth_12m": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "description": "Выручка последних 12 мес. / предыдущих 12 мес. - 1; null, если история неполная",
+          "minimum": -1
+        },
+        "revenue_volatility_12m": {
+          "type": [
+            "number"
+          ],
+          "description": "Стандартное отклонение месячной выручки / средняя месячная выручка",
+          "minimum": 0
+        },
+        "negative_cashflow_months_12m": {
+          "type": [
+            "integer"
+          ],
+          "description": "Количество отрицательных по CFADS месяцев за 12 месяцев",
+          "minimum": 0,
+          "maximum": 12
+        },
+        "revenue_discrepancy_ratio": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "description": "(Заявленная - подтверждённая выручка) / подтверждённая; null, если её нет",
+          "minimum": -1
+        },
+        "monthly_revenue": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "description": "Выбранная годовая выручка / 12; null при недоступной или нулевой базе",
+          "minimum": 0
+        },
+        "new_payment_at_reference_rate": {
+          "type": [
+            "number"
+          ],
+          "description": "Аннуитет по amount, сроку и фиксированным 25% годовых; рубли в месяц",
+          "minimum": 0
+        },
+        "payment_to_revenue": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "description": "(Старые платежи + новый платёж) / месячная выручка; доля",
+          "minimum": 0
+        },
+        "loan_amount_to_revenue": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "description": "Сумма нового кредита / выбранная годовая выручка",
+          "minimum": 0
+        },
+        "projected_dscr": {
+          "type": [
+            "number"
+          ],
+          "description": "(CFADS за 12 мес. / 12) / (старые платежи + новый платёж); может быть отрицательным"
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "product": {
+                "const": "EXPRESS"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "amount": {
+                "minimum": 300000,
+                "maximum": 5000000
+              },
+              "term_months": {
+                "minimum": 6,
+                "maximum": 36
+              },
+              "equipment_cost": {
+                "type": "null"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "product": {
+                "const": "EQUIPMENT"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "amount": {
+                "minimum": 500000,
+                "maximum": 15000000
+              },
+              "term_months": {
+                "minimum": 12,
+                "maximum": 60
+              },
+              "equipment_cost": {
+                "type": "number",
+                "exclusiveMinimum": 0
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "legal_form": {
+                "const": "IP"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "no_reporting_12m": {
+                "type": "null"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "verified_annual_revenue": {
+                "type": "number"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "declared_annual_revenue": {
+                "type": "null"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "verified_annual_revenue": {
+                "type": "null"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "declared_annual_revenue": {
+                "type": "number",
+                "minimum": 0
+              },
+              "annual_operating_profit": {
+                "type": "null"
+              },
+              "operating_margin": {
+                "type": "null"
+              },
+              "revenue_discrepancy_ratio": {
+                "type": "null"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "business_age_months": {
+                "type": "integer",
+                "maximum": 23
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "revenue_growth_12m": {
+                "type": "null"
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}
