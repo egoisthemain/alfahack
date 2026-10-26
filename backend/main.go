@@ -16,6 +16,8 @@ import (
 	"github.com/jackc/pgx/v5/pgxpool"
 )
 
+var ErrApplicationNotDraft = errors.New("application is not a draft")
+
 type HealthResponse struct {
 	Status string `json:"status"`
 }
@@ -215,6 +217,78 @@ func writeJSON(w http.ResponseWriter, status int, data any) error {
 	return json.NewEncoder(w).Encode(data)
 }
 
+func submitApplication(
+	ctx context.Context,
+	pool *pgxpool.Pool,
+	applicationID int64,
+) (Application, error) {
+	tx, err := pool.Begin(ctx)
+	if err != nil {
+		return Application{}, err
+	}
+	defer tx.Rollback(ctx)
+
+	application := Application{}
+	query := `
+		UPDATE applications
+		SET status = 'SUBMITTED'
+		WHERE application_id = $1 AND status = 'DRAFT'
+		RETURNING application_id, company_id, status, created_at;
+	
+	`
+	err = tx.QueryRow(ctx, query, applicationID).Scan(
+		&application.ID,
+		&application.CompanyID,
+		&application.Status,
+		&application.CreatedAt,
+	)
+
+	if errors.Is(err, pgx.ErrNoRows) {
+		var exists bool
+		query = `
+			SELECT EXISTS (
+				SELECT 1 FROM applications WHERE application_id = $1
+			)
+		`
+		err = tx.QueryRow(ctx, query, applicationID).Scan(&exists)
+		if err != nil {
+			return Application{}, err
+		}
+		if exists {
+			return Application{}, ErrApplicationNotDraft
+		} else {
+			return Application{}, pgx.ErrNoRows
+		}
+	}
+
+	if err != nil {
+		return Application{}, err
+	}
+
+	eventQuery := `
+		INSERT INTO application_events (
+		application_id, 
+		from_status,
+		to_status,
+		actor,
+		reason_code
+		)
+		VALUES ($1, 'DRAFT', 'SUBMITTED', 'CLIENT', 'SUBMIT');
+	
+	`
+	_, err = tx.Exec(ctx, eventQuery, applicationID)
+	if err != nil {
+		return Application{}, err
+	}
+
+	err = tx.Commit(ctx)
+	if err != nil {
+		return Application{}, err
+	}
+
+	return application, nil
+}
+
 func (app *App) applicationHandler(w http.ResponseWriter, r *http.Request) {
 	logger := app.Logger
 
@@ -411,6 +485,63 @@ func (app *App) applicationsHandler(w http.ResponseWriter, r *http.Request) {
 
 }
 
+func (app *App) submitApplicationHandler(w http.ResponseWriter, r *http.Request) {
+	logger := app.Logger
+
+	id := r.PathValue("id")
+	applicationID, convErr := strconv.ParseInt(id, 10, 64)
+	if convErr != nil || applicationID <= 0 {
+		err := writeJSON(w, http.StatusBadRequest, ErrorMsg{
+			Code:    "INVALID_APPLICATION_ID",
+			Message: "Application ID must be a positive value",
+		})
+		if err != nil {
+			logger.Error("не удалось записать тело ответа", "error", err)
+		}
+		return
+	}
+
+	ctx, cancel := context.WithTimeout(r.Context(), 5*time.Second)
+	defer cancel()
+
+	application, submitApplicationErr := submitApplication(ctx, app.DB, applicationID)
+	if errors.Is(submitApplicationErr, pgx.ErrNoRows) {
+		err := writeJSON(w, http.StatusNotFound, ErrorMsg{
+			Code:    "APPLICATION_NOT_FOUND",
+			Message: "Заявка не найдена",
+		})
+		if err != nil {
+			logger.Error("не удалось записать тело ответа", "error", err)
+		}
+		return
+	} else if errors.Is(submitApplicationErr, ErrApplicationNotDraft) {
+		err := writeJSON(w, http.StatusConflict, ErrorMsg{
+			Code:    "APPLICATION_NOT_DRAFT",
+			Message: "Заявка не является черновиком",
+		})
+		if err != nil {
+			logger.Error("не удалось записать тело ответа", "error", err)
+		}
+		return
+	} else if submitApplicationErr != nil {
+		logger.Error("submit application error", "error", submitApplicationErr)
+		err := writeJSON(w, http.StatusInternalServerError, ErrorMsg{
+			Code:    "INTERNAL_ERROR",
+			Message: "internal error",
+		})
+		if err != nil {
+			logger.Error("не удалось записать тело ответа", "error", err)
+		}
+		return
+	}
+
+	err := writeJSON(w, http.StatusOK, application)
+	if err != nil {
+		logger.Error("не удалось записать тело ответа", "error", err)
+		return
+	}
+}
+
 func connectDB(ctx context.Context, databaseURL string) (*pgxpool.Pool, error) {
 	pool, err := pgxpool.New(ctx, databaseURL)
 	if err != nil {
@@ -514,6 +645,7 @@ func main() {
 	mux.HandleFunc("/applications", app.applicationsHandler)
 	mux.HandleFunc("GET /companies/{inn}", app.companyHandler)
 	mux.HandleFunc("GET /applications/{id}", app.applicationHandler)
+	mux.HandleFunc("POST /applications/{id}/submit", app.submitApplicationHandler)
 
 	slog.Info("server started", "address", "localhost:8080")
 
