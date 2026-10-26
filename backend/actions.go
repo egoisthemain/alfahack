@@ -7,6 +7,7 @@ import (
 	"net/http"
 	"strconv"
 	"strings"
+	"time"
 )
 
 func (app *App) downloadHandler(w http.ResponseWriter, r *http.Request) {
@@ -41,7 +42,29 @@ func (app *App) auditHandler(w http.ResponseWriter, r *http.Request) {
 		app.endpointError(w, err)
 		return
 	}
-	_ = writeJSON(w, 200, map[string]any{"sources": json.RawMessage(sources), "model_response": json.RawMessage(model), "decision": json.RawMessage(decision)})
+	var snapshot map[string]any
+	if err = json.Unmarshal(sources, &snapshot); err != nil {
+		app.endpointError(w, err)
+		return
+	}
+	registry := block(snapshot, "company")
+	application := block(snapshot, "application")
+	registered, regErr := time.Parse("2006-01-02", text(registry, "registration_date"))
+	checkedAt, atErr := time.Parse(time.RFC3339, text(application, "submitted_at"))
+	verification := map[string]any{"source": "Синтетические данные PostgreSQL; снимок на момент рассмотрения", "registration_date": text(registry, "registration_date"), "checked_at": text(application, "submitted_at"), "minimum_age_months": 3}
+	if regErr == nil && atErr == nil {
+		months := ageMonths(registered, checkedAt)
+		verification["age_months"] = months
+		verification["age_stop_triggered"] = months < 3
+	}
+	current, err := getCompanyByINN(r.Context(), app.DB, text(registry, "inn"))
+	if err != nil {
+		app.endpointError(w, err)
+		return
+	}
+	verification["current_company"] = current
+	verification["registration_matches_current_db"] = current.RegistrationDate.Format("2006-01-02") == text(registry, "registration_date")
+	_ = writeJSON(w, 200, map[string]any{"sources": json.RawMessage(sources), "model_response": json.RawMessage(model), "decision": json.RawMessage(decision), "verification": verification})
 }
 
 func (app *App) documentHandler(w http.ResponseWriter, r *http.Request) {

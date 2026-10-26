@@ -9,6 +9,7 @@ import (
 	"net/http"
 	"net/http/httptest"
 	"os"
+	"strconv"
 	"testing"
 	"time"
 )
@@ -102,5 +103,44 @@ func TestIntegrationStopPreventsModelCall(t *testing.T) {
 	}
 	if a.Status != "REJECTED" || calls != 0 {
 		t.Fatalf("status=%s model calls=%d", a.Status, calls)
+	}
+}
+
+func TestIntegrationAuditRegistrationEvidence(t *testing.T) {
+	app := integrationApp(t)
+	id := testApplication(t, app, "7700000009")
+	if _, err := app.process(context.Background(), id); err != nil {
+		t.Fatal(err)
+	}
+	token := "integration-audit-registration"
+	sessions.Store(token, demoSession{Role: "analyst", Expires: time.Now().Add(time.Minute)})
+	defer sessions.Delete(token)
+	r := httptest.NewRequest("GET", "/audit", nil)
+	r.SetPathValue("id", strconv.FormatInt(id, 10))
+	r.AddCookie(&http.Cookie{Name: "alfahack_session", Value: token})
+	w := httptest.NewRecorder()
+	app.auditHandler(w, r)
+	if w.Code != 200 {
+		t.Fatalf("audit %d: %s", w.Code, w.Body.String())
+	}
+	var result struct {
+		Verification struct {
+			AgeMonths int    `json:"age_months"`
+			AgeStop   bool   `json:"age_stop_triggered"`
+			Matches   bool   `json:"registration_matches_current_db"`
+			CheckedAt string `json:"checked_at"`
+		} `json:"verification"`
+	}
+	if err := json.Unmarshal(w.Body.Bytes(), &result); err != nil {
+		t.Fatal(err)
+	}
+	if !result.Verification.AgeStop || result.Verification.AgeMonths >= 3 || !result.Verification.Matches || result.Verification.CheckedAt == "" {
+		t.Fatalf("invalid evidence: %s", w.Body.String())
+	}
+	sessions.Store(token, demoSession{Role: "client", Expires: time.Now().Add(time.Minute)})
+	w = httptest.NewRecorder()
+	app.auditHandler(w, r)
+	if w.Code != 403 {
+		t.Fatalf("client audit status %d", w.Code)
 	}
 }
