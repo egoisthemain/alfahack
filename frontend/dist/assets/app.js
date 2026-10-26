@@ -23,8 +23,26 @@ if(!client && a.supplier_document_id){const box=document.createElement('div');bo
 if(!client && a.decision && a.decision.scoring_mode!=='not_scored'){const fold=document.createElement('details');fold.className='meta';const title=document.createElement('summary');title.textContent='Исходные данные и аудит модели';fold.append(title);fold.addEventListener('toggle',async()=>{if(!fold.open||fold.dataset.loaded)return;try{const audit=await api('/applications/'+id+'/audit');const pre=document.createElement('pre');pre.style.whiteSpace='pre-wrap';pre.textContent=JSON.stringify(audit,null,2);fold.append(pre);fold.dataset.loaded='1'}catch(e){notice(e.message)}});$('detail').append(fold)}
 document.querySelectorAll('[data-action]').forEach(b=>b.onclick=async()=>{b.disabled=true;try{await api(`/applications/${id}/${b.dataset.action}`,{method:'POST'});if(b.dataset.action==='submit')await api(`/applications/${id}/process`,{method:'POST'});await detail(id)}catch(e){notice(e.message);b.disabled=false}});
 if($('revise-button'))$('revise-button').onclick=async()=>{const b=$('revise-button');b.disabled=true;try{const body={bki_consent:$('revise-consent').checked};const f=$('revise-file')?.files[0];if(f)body.supplier_document_id=await upload(f);await api(`/applications/${id}`,{method:'PATCH',body:JSON.stringify(body)});await api(`/applications/${id}/process`,{method:'POST'});await detail(id)}catch(e){notice(e.message);b.disabled=false}};
-if($('manual-decision'))$('manual-decision').value=d.recommendation||'NEED_INFO';
-if($('manual-form'))$('manual-form').onsubmit=async e=>{e.preventDefault();const b=e.target.querySelector('button');b.disabled=true;try{await api(`/applications/${id}/decision`,{method:'POST',body:JSON.stringify({decision:$('manual-decision').value,amount:Number($('manual-amount').value),reason_code:$('manual-reason').value,comment:$('manual-comment').value})});await detail(id)}catch(e){notice(e.message);b.disabled=false}};
+if($('manual-form')){
+const select=$('manual-decision'),amount=$('manual-amount'),reason=$('manual-reason');
+const minimum=a.product==='EQUIPMENT'?500000:300000;
+const maximum=Math.min(Number(d.limit?.amount||0),Number(a.amount));
+const canOffer=Boolean(o||d.review_terms)&&maximum>=minimum;
+select.querySelector('[value="APPROVED"]').disabled=!canOffer||Number(a.amount)>Number(d.limit?.amount||0);
+select.querySelector('[value="COUNTER_OFFER"]').disabled=!canOffer;
+const hint=document.createElement('p');hint.id='manual-hint';hint.className='meta';select.closest('.form-grid').before(hint);
+select.value=d.recommendation||'NEED_INFO';if(select.selectedOptions[0]?.disabled||!select.value)select.value='NEED_INFO';
+const sync=()=>{
+const value=select.value,offering=['APPROVED','COUNTER_OFFER'].includes(value);
+amount.disabled=!offering;amount.required=offering;amount.closest('label').hidden=!offering;
+amount.readOnly=value==='APPROVED';amount.min=String(minimum);amount.max=String(maximum);
+if(value==='APPROVED')amount.value=String(a.amount);
+else if(offering&&(!Number(amount.value)||Number(amount.value)>maximum))amount.value=String(Math.min(Number(o?.amount||d.review_terms?.amount||maximum),maximum));
+reason.disabled=value!=='REJECTED';reason.required=value==='REJECTED';reason.closest('label').hidden=value!=='REJECTED';
+hint.textContent=!canOffer?(d.grade==='E'?'Для класса риска E кредитное предложение не сформировано. Одобрение и контрпредложение недоступны. Можно отказать или запросить данные.':'Доступного кредитного предложения нет. Одобрение и контрпредложение недоступны. Можно отказать или запросить данные.'):(value==='APPROVED'?'Одобрение сохраняет запрошенную сумму. Чтобы изменить сумму, выберите контрпредложение.':value==='COUNTER_OFFER'?`Укажите сумму от ${money(minimum)} до ${money(maximum)} — в пределах лимита и запрошенной суммы.`:value==='REJECTED'?'Укажите причину отказа и комментарий. Сумма для отказа не требуется.':'Укажите в комментарии, какие данные необходимо предоставить. Сумма и причина отказа не требуются.');
+};select.onchange=sync;sync();
+$('manual-form').onsubmit=async e=>{e.preventDefault();const b=e.target.querySelector('button');b.disabled=true;try{await api(`/applications/${id}/decision`,{method:'POST',body:JSON.stringify({decision:select.value,amount:amount.disabled?0:Number(amount.value),reason_code:reason.disabled?'':reason.value,comment:$('manual-comment').value})});await detail(id)}catch(e){notice(e.message);b.disabled=false}};
+}
 }catch(e){notice(e.message)}}
 $('login-client').onclick=()=>login('client');$('login-analyst').onclick=()=>login('analyst');$('nav-new').onclick=()=>{if(state.role)view('new');else $('login-panel').hidden=false};$('nav-list').onclick=()=>state.role?list():notice('Сначала выберите учётную запись');$('refresh').onclick=list;$('back-list').onclick=list;$('account-button').onclick=()=>{view('new');$('new-view').hidden=true;$('login-panel').hidden=false};document.querySelectorAll('[data-product]').forEach(el=>el.onclick=()=>product(el.dataset.product));
 (async()=>{try{state.companies=await api('/companies');$('company-select').innerHTML=state.companies.map(c=>`<option value="${esc(c.inn)}">${esc(c.name)} · ${esc(c.inn)}</option>`).join('')}catch(e){notice('Не удалось загрузить компании. '+e.message)}})();
