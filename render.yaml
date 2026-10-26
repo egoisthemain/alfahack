@@ -1,0 +1,26 @@
+services:
+  - type: web
+    name: alfahack-demo
+    runtime: docker
+    plan: free
+    region: frankfurt
+    dockerfilePath: ./deploy/Render.Dockerfile
+    dockerContext: .
+    healthCheckPath: /health
+    autoDeployTrigger: "off"
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: alfahack-demo-db
+          property: connectionString
+      - key: DEMO_ACCESS_PASSWORD
+        generateValue: true
+      - key: COOKIE_SECURE
+        value: "true"
+databases:
+  - name: alfahack-demo-db
+    plan: free
+    region: frankfurt
+    databaseName: alfahack
+    user: alfahack
+    ipAllowList: []
