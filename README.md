@@ -193,7 +193,7 @@ python scripts/smoke.py
 
 Контрольный прогноз модели проверяет `scripts/check-model.py` с `MODEL_URL=http://127.0.0.1:8001`. Браузерные проверки `scripts/browser-check.cjs` и `scripts/check-manual-form.cjs` используют Playwright и локальный браузер. Интеграционные Go-тесты выполняются при заданном `TEST_DATABASE_URL`; без него пропускаются. Проверки создают синтетические заявки.
 
-Материалы: [API и модель данных](docs/api.md), [OpenAPI](docs/openapi.json), [Postman](docs/postman_collection.json), [результаты проверки Docker](docs/verification.md), [краткое ревью](docs/review.md). Проверяемую версию фиксирует `git rev-parse HEAD`.
+Материалы: [API и модель данных](docs/api.md), [OpenAPI](docs/openapi.json), [Postman](docs/postman_collection.json), [результаты проверки Docker](docs/verification.md). Проверяемую версию фиксирует `git rev-parse HEAD`.
 
 ## Границы прототипа
 
